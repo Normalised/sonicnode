@@ -40,14 +40,14 @@ process.on("SIGINT", function () {
 
 //startSC();
 
-//var stats = fs.statSync('music.rb');
+var defaultMusicFile = 'music.spi';
 
-if(!fs.existsSync('music.rb')) {
-  console.log('music.rb is not a file. creating.');
+if(!fs.existsSync(defaultMusicFile)) {
+  console.log(defaultMusicFile + ' is not a file. creating.');
   var newMusic = "play 60\nsleep 0.25\nplay 65\nsleep 0.25\nplay 69";
-  fs.writeFileSync('music.rb', newMusic, 'utf8', function(err) {
+  fs.writeFileSync(defaultMusicFile, newMusic, 'utf8', function(err) {
     if(err) {
-      console.error("Couldn't create music.rb, exiting");
+      console.error("Couldn't create " + defaultMusicFile + ", exiting");
     }
   });
 }
@@ -58,9 +58,9 @@ var sendToPi = function(filename) {
 }
 
 fs.watch('./', function (event, filename) {
-  if(filename == 'music.rb') {
-    sendToPi('music.rb');
+  if(filename == defaultMusicFile) {
+    sendToPi(defaultMusicFile);
   }
 });
 
-sendToPi('music.rb');
+sendToPi(defaultMusicFile);
